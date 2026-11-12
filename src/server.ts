@@ -116,6 +116,8 @@ app.post("/api/state", (req, res) => {
             logoUrl: String(s?.logoUrl ?? ""),
           }))
         : [],
+      showRealizador: incoming.branding?.showRealizador !== false,
+      showSponsors: incoming.branding?.showSponsors !== false,
     },
     display: { ...def.display, ...(incoming.display ?? {}) },
     updatedAt: Date.now(),

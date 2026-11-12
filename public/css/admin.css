@@ -254,6 +254,18 @@ input[type="color"] {
   cursor: pointer;
 }
 
+.btn.ativo {
+  background: var(--primario);
+  border-color: var(--primario);
+  color: #052e12;
+}
+
+.dica-inversao {
+  margin-top: 10px;
+  font-size: 12px;
+  color: var(--texto-fraco);
+}
+
 .patrocinador-item {
   border: 1px solid var(--borda);
   border-radius: var(--raio);

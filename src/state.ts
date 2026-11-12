@@ -17,7 +17,7 @@ export const PERIODOS = [
 
 export function defaultState(): State {
   return {
-    competition: { name: "Nome da Competição", round: "1ª Rodada" },
+    competition: { name: "Nome da Competição", round: "1ª Rodada", logoUrl: "", showLogo: true },
     teams: {
       home: { name: "Time da Casa", short: "CASA", logoUrl: "", color: "#22c55e" },
       away: { name: "Time Visitante", short: "VIS", logoUrl: "", color: "#38bdf8" },
@@ -48,6 +48,8 @@ export function defaultState(): State {
     branding: {
       realizador: { name: "", logoUrl: "" },
       sponsors: [],
+      showRealizador: true,
+      showSponsors: true,
     },
     display: { invertSides: false },
     updatedAt: Date.now(),

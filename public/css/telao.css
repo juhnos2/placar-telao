@@ -43,13 +43,27 @@ body.cursor-hide { cursor: none; }
   align-items: center;
   justify-content: center;
   gap: 18px;
-  padding: 2.6vh 4vw 1vh;
+  padding: 1.6vh 4vw 0.6vh;
+  min-height: 0;
+}
+
+.titulo-logo {
+  height: clamp(40px, 9vh, 100px);
+  max-width: 22vw;
+  object-fit: contain;
+}
+
+.topo-textos {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  min-width: 0;
 }
 
 .competicao {
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: clamp(18px, 3.6vh, 38px);
+  font-size: clamp(18px, 3.4vh, 36px);
   letter-spacing: 0.14em;
   text-transform: uppercase;
 }
@@ -88,7 +102,7 @@ body.cursor-hide { cursor: none; }
 .time .nome {
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: clamp(22px, 5.4vh, 58px);
+  font-size: clamp(20px, 4.8vh, 52px);
   text-transform: uppercase;
   letter-spacing: 0.06em;
   line-height: 1.05;
@@ -98,8 +112,8 @@ body.cursor-hide { cursor: none; }
 }
 
 .time .logo {
-  width: clamp(90px, 24vh, 250px);
-  height: clamp(90px, 24vh, 250px);
+  width: clamp(135px, 34vh, 360px);
+  height: clamp(135px, 34vh, 360px);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -152,7 +166,7 @@ body.cursor-hide { cursor: none; }
 .gols {
   font-family: var(--font-display);
   font-weight: 800;
-  font-size: clamp(64px, 20vh, 210px);
+  font-size: clamp(56px, 18vh, 190px);
   min-width: 1.2em;
   text-align: center;
 }
@@ -217,7 +231,7 @@ body.cursor-hide { cursor: none; }
   font-family: var(--font-display);
   font-weight: 800;
   font-variant-numeric: tabular-nums;
-  font-size: clamp(32px, 8.5vh, 88px);
+  font-size: clamp(28px, 7vh, 76px);
   line-height: 1;
   letter-spacing: 0.04em;
 }
@@ -274,15 +288,15 @@ body.cursor-hide { cursor: none; }
 }
 
 .branding-item img {
-  height: clamp(26px, 6vh, 64px);
-  max-width: 12vw;
+  height: clamp(39px, 9vh, 96px);
+  max-width: 18vw;
   object-fit: contain;
 }
 
 .branding-item span {
   font-family: var(--font-display);
   font-weight: 600;
-  font-size: clamp(13px, 2.6vh, 26px);
+  font-size: clamp(16px, 3.2vh, 32px);
   color: var(--text);
   opacity: 0.9;
   white-space: nowrap;

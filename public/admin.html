@@ -95,6 +95,11 @@
               <select id="clock-periodo"></select>
             </div>
           </div>
+          <div class="cartao">
+            <h2>Lados do placar</h2>
+            <button id="btn-inverter" class="btn">⇄ Inverter lados</button>
+            <p class="dica-inversao" id="estado-inversao"></p>
+          </div>
         </div>
       </section>
 
@@ -167,6 +172,20 @@
             <label>Rodada / Fase</label>
             <input type="text" data-campo="competition.round" maxlength="40" placeholder="Ex.: 3ª Rodada — Semifinal" />
           </div>
+          <div class="linha-form">
+            <label>Logo do título (exibida no topo do telão)</label>
+            <div class="upload-area" data-upload="competition.logoUrl">
+              <img class="upload-preview" alt="Logo do título" />
+              <div class="upload-acoes">
+                <button class="btn pequeno escolher">Escolher imagem</button>
+                <button class="btn pequeno perigo remover-logo">Remover</button>
+              </div>
+            </div>
+          </div>
+          <label class="check-linha">
+            <input type="checkbox" data-campo="competition.showLogo" checked />
+            <span>Mostrar a logo do título no telão</span>
+          </label>
         </div>
       </section>
 
@@ -187,13 +206,6 @@
             <label>Texto secundário <input type="color" data-campo="theme.muted" /></label>
           </div>
         </div>
-        <div class="cartao estreito">
-          <h2>Opções de exibição</h2>
-          <label class="check-linha">
-            <input type="checkbox" data-campo="display.invertSides" />
-            <span>Inverter lados do placar — o time visitante fica à esquerda</span>
-          </label>
-        </div>
       </section>
 
       <!-- ABA: BRANDING -->
@@ -202,6 +214,10 @@
         <div class="grade-2">
           <div class="cartao">
             <h2>Realizador</h2>
+            <label class="check-linha" style="margin-bottom: 14px;">
+              <input type="checkbox" data-campo="branding.showRealizador" checked />
+              <span>Mostrar realização no telão</span>
+            </label>
             <div class="linha-form">
               <label>Nome do realizador</label>
               <input type="text" data-campo="branding.realizador.name" maxlength="60" placeholder="Ex.: Secretaria de Esporte e Lazer" />
@@ -219,6 +235,10 @@
           </div>
           <div class="cartao">
             <h2>Patrocinadores</h2>
+            <label class="check-linha" style="margin-bottom: 14px;">
+              <input type="checkbox" data-campo="branding.showSponsors" checked />
+              <span>Mostrar patrocinadores no telão</span>
+            </label>
             <div id="lista-patrocinadores"></div>
             <button id="btn-add-pat" class="btn">＋ Adicionar patrocinador</button>
           </div>

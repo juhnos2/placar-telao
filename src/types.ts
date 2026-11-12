@@ -38,6 +38,8 @@ export interface Sponsor {
 export interface Branding {
   realizador: Sponsor;
   sponsors: Sponsor[];
+  showRealizador: boolean;
+  showSponsors: boolean;
 }
 
 export interface DisplayOpts {
@@ -45,7 +47,7 @@ export interface DisplayOpts {
 }
 
 export interface State {
-  competition: { name: string; round: string };
+  competition: { name: string; round: string; logoUrl: string; showLogo: boolean };
   teams: { home: Team; away: Team };
   score: { home: number; away: number; foulsHome: number; foulsAway: number };
   clock: Clock;

@@ -46,12 +46,28 @@ function timeHtml(team, faltas) {
   `;
 }
 
+function topoHtml(competition) {
+  const logo = competition.showLogo && competition.logoUrl
+    ? `<img class="titulo-logo" src="${esc(competition.logoUrl)}" alt="${esc(competition.name)}" />`
+    : "";
+  return `
+    <header class="telao-topo">
+      ${logo}
+      <div class="topo-textos">
+        <span class="competicao">${esc(competition.name)}</span>
+        <span class="rodada">${esc(competition.round)}</span>
+      </div>
+    </header>
+  `;
+}
+
 function brandingHtml(branding) {
   if (!branding) return "";
   const r = branding.realizador || { name: "", logoUrl: "" };
   const sp = (branding.sponsors || []).filter((s) => (s.name || "").trim() || s.logoUrl);
-  const temRealizador = (r.name || "").trim() || r.logoUrl;
-  if (!temRealizador && sp.length === 0) return "";
+  const temRealizador = ((r.name || "").trim() || r.logoUrl) && branding.showRealizador !== false;
+  const temPatrocinadores = sp.length > 0 && branding.showSponsors !== false;
+  if (!temRealizador && !temPatrocinadores) return "";
 
   const realizadorHtml = temRealizador
     ? `
@@ -64,7 +80,7 @@ function brandingHtml(branding) {
       </div>`
     : "";
 
-  const patrocinadoresHtml = sp.length
+  const patrocinadoresHtml = temPatrocinadores
     ? `
       <div class="branding-grupo patrocinadores">
         <span class="branding-rotulo">Patrocinadores</span>
@@ -98,10 +114,7 @@ function renderPlacar(root, state) {
   const faltasDir = invertido ? score.foulsHome : score.foulsAway;
 
   root.innerHTML = `
-    <header class="telao-topo">
-      <span class="competicao">${esc(competition.name)}</span>
-      <span class="rodada">${esc(competition.round)}</span>
-    </header>
+    ${topoHtml(competition)}
     <main class="placar-area">
       ${timeHtml(esq, faltasEsq)}
       ${timeHtml(dir, faltasDir)}

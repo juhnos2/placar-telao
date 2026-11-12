@@ -85,8 +85,11 @@ function preencherFormularios() {
   $$("[data-campo]").forEach((el) => {
     const valor = obterCaminho(estado, el.dataset.campo);
     if (el.type === "color") el.value = valor || "#000000";
+    else if (el.type === "checkbox") el.checked = valor !== false;
     else el.value = valor ?? "";
   });
+
+  atualizarBotaoInversao();
 
   $("#rotulo-casa").textContent = estado.teams.home.name || "Time da Casa";
   $("#rotulo-fora").textContent = estado.teams.away.name || "Time Visitante";
@@ -208,6 +211,27 @@ $("#btn-set-acresc").addEventListener("click", async () => {
 $("#clock-periodo").addEventListener("change", async (ev) => {
   const res = await api("/api/clock", { action: "period", period: ev.target.value });
   estado = res.state; renderizarPrevia();
+});
+
+/* ===== Inversão de lados ===== */
+
+function atualizarBotaoInversao() {
+  const btn = $("#btn-inverter");
+  const info = $("#estado-inversao");
+  if (!btn || !estado) return;
+  const invertido = Boolean(estado.display && estado.display.invertSides);
+  btn.classList.toggle("ativo", invertido);
+  btn.textContent = invertido ? "⇄ Lados invertidos (visitante à esquerda)" : "⇄ Inverter lados";
+  info.textContent = invertido
+    ? "À esquerda: " + (estado.teams.away.name || "Visitante") + " · À direita: " + (estado.teams.home.name || "Casa")
+    : "À esquerda: " + (estado.teams.home.name || "Casa") + " · À direita: " + (estado.teams.away.name || "Visitante");
+}
+
+$("#btn-inverter").addEventListener("click", () => {
+  estado.display.invertSides = !estado.display.invertSides;
+  atualizarBotaoInversao();
+  renderizarPrevia();
+  salvarEstado();
 });
 
 /* ===== Temas prontos ===== */
