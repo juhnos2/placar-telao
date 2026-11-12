@@ -10,7 +10,7 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@mistralai/mistralai": "^3.5.0",
+    "@mistralai/mistralai": "^1.15.1",
     "express": "^4.21.2"
   },
   "devDependencies": {
@@ -18,5 +18,8 @@
     "@types/node": "^22.10.2",
     "tsx": "^4.19.2",
     "typescript": "^5.7.2"
+  },
+  "engines": {
+    "node": ">=18"
   }
 }
