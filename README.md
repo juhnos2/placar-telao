@@ -233,6 +233,7 @@ placar-telao/
 | `EADDRINUSE :3000` | A porta 3000 já está em uso | Feche outro programa na porta 3000 ou mude `PORT=3001` no `.env` |
 | Assistente IA responde erro de chave | `MISTRAL_API_KEY` não configurada | Crie o `.env` a partir do `.env.example` e cole sua chave da [console.mistral.ai](https://console.mistral.ai/) |
 | Telão não atualiza em tempo real | Proxy/firewall bloqueando SSE | Em Nginx, use `proxy_buffering off;` (ver seção VPS) |
+| Tela do telão com véu escuro/embaçado que volta sozinho | **Dois servidores rodando ao mesmo tempo** (o painel fala com um e o telão com outro) | Feche **todas** as janelas pretas do servidor, abra apenas uma (`iniciar.bat` → opção 1) e use telão e painel **na mesma porta** mostrada no menu. Na tela do telão, use o botão "✕ Ocultar aviso" (canto superior esquerdo) ou a tecla **ESC** |
 
 ---
 

@@ -3,6 +3,7 @@
 const telaoEl = document.getElementById("telao");
 const overlayEl = document.getElementById("banner-overlay");
 const btnFullscreen = document.getElementById("btn-fullscreen");
+const btnOcultarBanner = document.getElementById("btn-ocultar-banner");
 
 let estadoAtual = null;
 
@@ -10,6 +11,7 @@ function renderizar() {
   if (!estadoAtual) return;
   renderPlacar(telaoEl, estadoAtual);
   renderBanner(overlayEl, estadoAtual);
+  btnOcultarBanner.hidden = !estadoAtual.banner.active;
 }
 
 function conectar() {
@@ -45,13 +47,21 @@ function removerAvisoDesconectado() {
   if (aviso) aviso.remove();
 }
 
-/* Tela cheia + cursor automático */
+/* Tela cheia + ocultar banner + cursor automático */
 btnFullscreen.addEventListener("click", () => {
   if (document.fullscreenElement) {
     document.exitFullscreen();
   } else {
     document.documentElement.requestFullscreen().catch(() => {});
   }
+});
+
+btnOcultarBanner.addEventListener("click", () => {
+  fetch("/api/banner", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ active: false }),
+  }).catch(() => {});
 });
 
 let timerCursor = null;
