@@ -33,17 +33,20 @@ aparece no telão na hora, sem recarregar a página.
 ## ⚡ Inicialização rápida (Windows)
 
 A maneira mais fácil de rodar no Windows é dar **duplo clique em `iniciar.bat`**.
-Ele faz tudo sozinho:
+Ele abre um menu que nunca fecha sozinho:
 
-1. Verifica se o **Node.js** está instalado (se não, mostra o link para instalar);
-2. Instala as dependências (`npm install`) na primeira execução;
-3. Compila o projeto (`npm run build`) na primeira execução;
-4. Inicia o servidor e **abre o painel automaticamente no navegador**.
+| Opção | O que faz |
+|-------|-----------|
+| **[1] Iniciar** | Instala dependências e compila (só na primeira vez), inicia o servidor e **abre o painel no navegador** |
+| **[2] Reparar** | Reinstala tudo do zero (`node_modules` e `dist`) — use se algo deu errado antes |
+| **[3] Diagnóstico** | Mostra se Node.js, npm, compilação e porta estão OK — útil para relatar problemas |
+| **[0] Sair** | Fecha o menu |
 
-> 💡 Na primeira vez pode demorar alguns minutos (instalação). Nas seguintes,
-> abre em poucos segundos. Deixe a janela preta aberta enquanto usar o placar.
+> 💡 Na primeira vez, use **[1]** e aguarde alguns minutos (instalação).
+> Deixe a janela aberta enquanto usar o placar.
+> A porta é lida automaticamente do arquivo `.env` (padrão 3000).
 
-Em **Linux/Mac**, use `./iniciar.sh` (mesmo funcionamento).
+Em **Linux/Mac**, use `./iniciar.sh` (mesmo funcionamento, sem menu).
 
 ---
 
