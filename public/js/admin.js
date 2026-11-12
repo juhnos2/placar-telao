@@ -292,6 +292,12 @@ $("#btn-banner-mostrar").addEventListener("click", async () => {
   try {
     const res = await api("/api/state", estado);
     estado = res.state;
+    const b = estado.banner;
+    const temConteudo = b.kind === "text" ? (b.text || "").trim() : b.mediaUrl;
+    if (!temConteudo) {
+      toast("Preencha o texto do aviso ou envie um arquivo antes de exibir", true);
+      return;
+    }
     await api("/api/banner", { active: true });
     toast("Banner exibido no telão");
   } catch (e) { toast(e.message, true); }

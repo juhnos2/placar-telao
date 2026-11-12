@@ -70,6 +70,17 @@ document.addEventListener("mousemove", mostrarControles);
 document.addEventListener("keydown", mostrarControles);
 document.addEventListener("click", mostrarControles);
 
+/* ESC no telão oculta o banner imediatamente */
+document.addEventListener("keydown", (ev) => {
+  if (ev.key === "Escape" && estadoAtual?.banner.active) {
+    fetch("/api/banner", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ active: false }),
+    }).catch(() => {});
+  }
+});
+
 /* Atualiza o relógio a cada 250 ms sem redesenhar tudo */
 setInterval(() => {
   if (!estadoAtual) return;

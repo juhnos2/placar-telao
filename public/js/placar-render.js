@@ -67,7 +67,9 @@ function renderPlacar(root, state) {
 
 function renderBanner(overlay, state) {
   const banner = state.banner;
-  if (!banner.active) {
+  const temConteudo =
+    banner.kind === "text" ? (banner.text || "").trim() : banner.mediaUrl;
+  if (!banner.active || !temConteudo) {
     overlay.hidden = true;
     overlay.innerHTML = "";
     return;

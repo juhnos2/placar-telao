@@ -169,6 +169,16 @@ app.post("/api/clock", (req, res) => {
 
 app.post("/api/banner", (req, res) => {
   const { active } = req.body ?? {};
+  if (active) {
+    const b = state.banner;
+    const temConteudo =
+      b.kind === "text" ? b.text.trim().length > 0 : b.mediaUrl.trim().length > 0;
+    if (!temConteudo) {
+      return res.status(400).json({
+        error: "Preencha o texto do aviso ou envie um arquivo antes de exibir.",
+      });
+    }
+  }
   state.banner.active = Boolean(active);
   commit();
   res.json({ ok: true, state });
