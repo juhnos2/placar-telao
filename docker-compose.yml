@@ -1,0 +1,13 @@
+services:
+  placar:
+    build: .
+    container_name: placar-telao
+    ports:
+      - "3000:3000"
+    environment:
+      - MISTRAL_API_KEY=${MISTRAL_API_KEY:-}
+      - MISTRAL_MODEL=${MISTRAL_MODEL:-mistral-small-latest}
+      - PORT=3000
+    volumes:
+      - ./data:/app/data
+    restart: unless-stopped

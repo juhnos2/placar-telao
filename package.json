@@ -1,0 +1,22 @@
+{
+  "name": "placar-telao",
+  "version": "1.0.0",
+  "description": "Placar eletrônico de futebol para telão de campo, com painel de controle e assistente IA (Mistral)",
+  "main": "dist/server.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/server.js",
+    "dev": "tsx watch src/server.ts"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "@mistralai/mistralai": "^3.5.0",
+    "express": "^4.21.2"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.21",
+    "@types/node": "^22.10.2",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2"
+  }
+}

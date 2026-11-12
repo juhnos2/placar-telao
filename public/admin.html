@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Painel de Controle — PlacarTelão</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/admin.css" />
+</head>
+<body>
+  <div class="layout">
+    <aside class="sidebar">
+      <div class="marca">
+        <span class="marca-icone">⚽</span>
+        <div>
+          <strong>PlacarTelão</strong>
+          <small>Painel de Controle</small>
+        </div>
+      </div>
+      <nav class="menu">
+        <button class="menu-item ativo" data-aba="jogo">🎮 Jogo e Cronômetro</button>
+        <button class="menu-item" data-aba="times">🛡️ Times e Logos</button>
+        <button class="menu-item" data-aba="competicao">🏆 Competição</button>
+        <button class="menu-item" data-aba="aparencia">🎨 Aparência</button>
+        <button class="menu-item" data-aba="banner">📣 Banner de Aviso</button>
+        <button class="menu-item" data-aba="ia">🤖 Assistente IA</button>
+      </nav>
+      <div class="sidebar-rodape">
+        <a href="/" target="_blank" rel="noopener">Abrir telão ↗</a>
+        <span id="status-conexao" class="status ok">● Conectado</span>
+      </div>
+    </aside>
+
+    <main class="conteudo">
+      <!-- ABA: JOGO -->
+      <section class="aba ativa" data-aba="jogo">
+        <h1>Jogo e Cronômetro</h1>
+        <div class="grade-2">
+          <div class="cartao">
+            <h2>Placar</h2>
+            <div class="placar-controles">
+              <div class="time-controle">
+                <label id="rotulo-casa">Time da Casa</label>
+                <div class="gol-linha">
+                  <button class="btn-gol" data-time="home" data-delta="1">⚽ Gol</button>
+                  <button class="btn-gol remover" data-time="home" data-delta="-1">−</button>
+                  <span class="gol-valor" id="gols-casa">0</span>
+                </div>
+              </div>
+              <div class="time-controle">
+                <label id="rotulo-fora">Time Visitante</label>
+                <div class="gol-linha">
+                  <button class="btn-gol" data-time="away" data-delta="1">⚽ Gol</button>
+                  <button class="btn-gol remover" data-time="away" data-delta="-1">−</button>
+                  <span class="gol-valor" id="gols-fora">0</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="cartao">
+            <h2>Cronômetro</h2>
+            <div class="clock-display" id="clock-display">00:00</div>
+            <div class="linha-botoes">
+              <button id="btn-iniciar" class="btn primario">▶ Iniciar</button>
+              <button id="btn-pausar" class="btn">⏸ Pausar</button>
+              <button id="btn-zerar" class="btn perigo">⟲ Zerar</button>
+            </div>
+            <div class="linha-form">
+              <label>Ajustar minutos
+                <input type="number" id="clock-minutos" min="0" max="199" value="0" />
+              </label>
+              <button id="btn-set-min" class="btn">Definir</button>
+            </div>
+            <div class="linha-form">
+              <label>Acréscimos (min)
+                <input type="number" id="clock-acrescimos" min="0" max="99" value="0" />
+              </label>
+              <button id="btn-set-acresc" class="btn">Definir</button>
+            </div>
+            <div class="linha-form">
+              <label>Período</label>
+              <select id="clock-periodo"></select>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ABA: TIMES -->
+      <section class="aba" data-aba="times">
+        <h1>Times e Logos</h1>
+        <div class="grade-2">
+          <div class="cartao" data-time-editor="home">
+            <h2>Time da Casa</h2>
+            <div class="linha-form">
+              <label>Nome do time</label>
+              <input type="text" data-campo="teams.home.name" maxlength="40" />
+            </div>
+            <div class="linha-form">
+              <label>Abreviação (3 letras)</label>
+              <input type="text" data-campo="teams.home.short" maxlength="4" />
+            </div>
+            <div class="linha-form">
+              <label>Cor do time</label>
+              <input type="color" data-campo="teams.home.color" />
+            </div>
+            <div class="linha-form">
+              <label>Logo (PNG, JPG ou SVG)</label>
+              <div class="upload-area" data-upload="teams.home.logoUrl">
+                <img class="upload-preview" alt="Logo" />
+                <div class="upload-acoes">
+                  <button class="btn pequeno escolher">Escolher imagem</button>
+                  <button class="btn pequeno perigo remover-logo">Remover</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="cartao" data-time-editor="away">
+            <h2>Time Visitante</h2>
+            <div class="linha-form">
+              <label>Nome do time</label>
+              <input type="text" data-campo="teams.away.name" maxlength="40" />
+            </div>
+            <div class="linha-form">
+              <label>Abreviação (3 letras)</label>
+              <input type="text" data-campo="teams.away.short" maxlength="4" />
+            </div>
+            <div class="linha-form">
+              <label>Cor do time</label>
+              <input type="color" data-campo="teams.away.color" />
+            </div>
+            <div class="linha-form">
+              <label>Logo (PNG, JPG ou SVG)</label>
+              <div class="upload-area" data-upload="teams.away.logoUrl">
+                <img class="upload-preview" alt="Logo" />
+                <div class="upload-acoes">
+                  <button class="btn pequeno escolher">Escolher imagem</button>
+                  <button class="btn pequeno perigo remover-logo">Remover</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ABA: COMPETIÇÃO -->
+      <section class="aba" data-aba="competicao">
+        <h1>Competição</h1>
+        <div class="cartao estreito">
+          <div class="linha-form">
+            <label>Nome da competição</label>
+            <input type="text" data-campo="competition.name" maxlength="60" placeholder="Ex.: Copa Municipal de Futebol" />
+          </div>
+          <div class="linha-form">
+            <label>Rodada / Fase</label>
+            <input type="text" data-campo="competition.round" maxlength="40" placeholder="Ex.: 3ª Rodada — Semifinal" />
+          </div>
+        </div>
+      </section>
+
+      <!-- ABA: APARÊNCIA -->
+      <section class="aba" data-aba="aparencia">
+        <h1>Aparência do Painel</h1>
+        <div class="cartao estreito">
+          <h2>Temas prontos</h2>
+          <div class="linha-temas" id="linha-temas"></div>
+        </div>
+        <div class="cartao estreito">
+          <h2>Cores personalizadas</h2>
+          <div class="grade-cores">
+            <label>Fundo <input type="color" data-campo="theme.bg" /></label>
+            <label>Painéis <input type="color" data-campo="theme.panel" /></label>
+            <label>Destaque <input type="color" data-campo="theme.accent" /></label>
+            <label>Texto principal <input type="color" data-campo="theme.text" /></label>
+            <label>Texto secundário <input type="color" data-campo="theme.muted" /></label>
+          </div>
+        </div>
+      </section>
+
+      <!-- ABA: BANNER -->
+      <section class="aba" data-aba="banner">
+        <h1>Banner de Aviso</h1>
+        <div class="cartao">
+          <div class="grade-2">
+            <div>
+              <div class="linha-form">
+                <label>Tipo de banner</label>
+                <select id="banner-tipo">
+                  <option value="text">Texto</option>
+                  <option value="image">Imagem estática</option>
+                  <option value="video">Vídeo</option>
+                </select>
+              </div>
+              <div class="linha-form">
+                <label>Título (opcional)</label>
+                <input type="text" data-campo="banner.title" maxlength="80" placeholder="Ex.: Aviso Importante" />
+              </div>
+              <div class="linha-form campo-banner-texto">
+                <label>Texto do aviso</label>
+                <textarea data-campo="banner.text" rows="3" maxlength="300" placeholder="Ex.: Bom jogo a todos! Respeitem as regras do estádio."></textarea>
+              </div>
+              <div class="linha-form campo-banner-media" hidden>
+                <label>Arquivo (imagem ou vídeo)</label>
+                <div class="upload-area" data-upload="banner.mediaUrl">
+                  <img class="upload-preview" alt="Prévia" />
+                  <div class="upload-acoes">
+                    <button class="btn pequeno escolher">Escolher arquivo</button>
+                    <button class="btn pequeno perigo remover-logo">Remover</button>
+                  </div>
+                </div>
+              </div>
+              <div class="linha-form">
+                <label>Duração automática (segundos — 0 = até desativar)</label>
+                <input type="number" data-campo="banner.durationSec" min="0" max="3600" value="0" />
+              </div>
+              <div class="linha-botoes">
+                <button id="btn-banner-mostrar" class="btn primario">📣 Exibir no telão</button>
+                <button id="btn-banner-ocultar" class="btn perigo">Ocultar</button>
+              </div>
+            </div>
+            <div>
+              <h2>Prévia do banner</h2>
+              <div class="previa-banner" id="previa-banner">
+                <div class="previa-banner-interno"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ABA: IA -->
+      <section class="aba" data-aba="ia">
+        <h1>Assistente IA <span class="badge">Mistral · mistral-small-latest</span></h1>
+        <div class="cartao cartao-chat">
+          <p class="descricao-ia">
+            Peça ajuda para criar avisos, mensagens de boas-vindas, comunicados de segurança,
+            divulgação de patrocinadores e textos para o telão. A chave da API fica somente no
+            servidor — o navegador nunca tem acesso a ela.
+          </p>
+          <div class="sugestoes">
+            <button class="btn pequeno sugestao">Crie um aviso de boas-vindas para o público de hoje</button>
+            <button class="btn pequeno sugestao">Crie um aviso pedindo respeito aos árbitros</button>
+            <button class="btn pequeno sugestao">Crie um aviso de segurança sobre as saídas de emergência</button>
+            <button class="btn pequeno sugestao">Crie um aviso agradecendo os patrocinadores da partida</button>
+          </div>
+          <div class="chat" id="chat-mensagens"></div>
+          <form class="chat-entrada" id="chat-form">
+            <input type="text" id="chat-input" placeholder="Ex.: crie um aviso curto anunciando o início da partida…" autocomplete="off" />
+            <button type="submit" class="btn primario" id="chat-enviar">Enviar</button>
+          </form>
+        </div>
+      </section>
+    </main>
+
+    <aside class="painel-previa">
+      <div class="previa-cabecalho">
+        <span>Prévia do telão</span>
+        <span class="previa-dica">atualiza em tempo real</span>
+      </div>
+      <div class="previa-moldura">
+        <div class="previa-escala">
+          <div id="previa-telao"></div>
+        </div>
+      </div>
+      <div class="previa-banner-status" id="previa-banner-status"></div>
+    </aside>
+  </div>
+
+  <div class="toast" id="toast" hidden></div>
+
+  <script src="/js/placar-render.js"></script>
+  <script src="/js/admin.js"></script>
+</body>
+</html>
