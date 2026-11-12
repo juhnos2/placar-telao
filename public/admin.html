@@ -24,6 +24,7 @@
         <button class="menu-item" data-aba="times">🛡️ Times e Logos</button>
         <button class="menu-item" data-aba="competicao">🏆 Competição</button>
         <button class="menu-item" data-aba="aparencia">🎨 Aparência</button>
+        <button class="menu-item" data-aba="branding">🤝 Realização e Patrocinadores</button>
         <button class="menu-item" data-aba="banner">📣 Banner de Aviso</button>
         <button class="menu-item" data-aba="ia">🤖 Assistente IA</button>
       </nav>
@@ -44,17 +45,27 @@
               <div class="time-controle">
                 <label id="rotulo-casa">Time da Casa</label>
                 <div class="gol-linha">
-                  <button class="btn-gol" data-time="home" data-delta="1">⚽ Gol</button>
-                  <button class="btn-gol remover" data-time="home" data-delta="-1">−</button>
+                  <button class="btn-gol" data-time="home" data-tipo="gol" data-delta="1">⚽ Gol</button>
+                  <button class="btn-gol remover" data-time="home" data-tipo="gol" data-delta="-1">−</button>
                   <span class="gol-valor" id="gols-casa">0</span>
+                </div>
+                <div class="gol-linha">
+                  <button class="btn-gol falta" data-time="home" data-tipo="falta" data-delta="1">⚠ Falta</button>
+                  <button class="btn-gol remover" data-time="home" data-tipo="falta" data-delta="-1">−</button>
+                  <span class="gol-valor pequeno" id="faltas-casa">0</span>
                 </div>
               </div>
               <div class="time-controle">
                 <label id="rotulo-fora">Time Visitante</label>
                 <div class="gol-linha">
-                  <button class="btn-gol" data-time="away" data-delta="1">⚽ Gol</button>
-                  <button class="btn-gol remover" data-time="away" data-delta="-1">−</button>
+                  <button class="btn-gol" data-time="away" data-tipo="gol" data-delta="1">⚽ Gol</button>
+                  <button class="btn-gol remover" data-time="away" data-tipo="gol" data-delta="-1">−</button>
                   <span class="gol-valor" id="gols-fora">0</span>
+                </div>
+                <div class="gol-linha">
+                  <button class="btn-gol falta" data-time="away" data-tipo="falta" data-delta="1">⚠ Falta</button>
+                  <button class="btn-gol remover" data-time="away" data-tipo="falta" data-delta="-1">−</button>
+                  <span class="gol-valor pequeno" id="faltas-fora">0</span>
                 </div>
               </div>
             </div>
@@ -174,6 +185,42 @@
             <label>Destaque <input type="color" data-campo="theme.accent" /></label>
             <label>Texto principal <input type="color" data-campo="theme.text" /></label>
             <label>Texto secundário <input type="color" data-campo="theme.muted" /></label>
+          </div>
+        </div>
+        <div class="cartao estreito">
+          <h2>Opções de exibição</h2>
+          <label class="check-linha">
+            <input type="checkbox" data-campo="display.invertSides" />
+            <span>Inverter lados do placar — o time visitante fica à esquerda</span>
+          </label>
+        </div>
+      </section>
+
+      <!-- ABA: BRANDING -->
+      <section class="aba" data-aba="branding">
+        <h1>Realização e Patrocinadores</h1>
+        <div class="grade-2">
+          <div class="cartao">
+            <h2>Realizador</h2>
+            <div class="linha-form">
+              <label>Nome do realizador</label>
+              <input type="text" data-campo="branding.realizador.name" maxlength="60" placeholder="Ex.: Secretaria de Esporte e Lazer" />
+            </div>
+            <div class="linha-form">
+              <label>Logo do realizador</label>
+              <div class="upload-area" data-upload="branding.realizador.logoUrl">
+                <img class="upload-preview" alt="Logo" />
+                <div class="upload-acoes">
+                  <button class="btn pequeno escolher">Escolher imagem</button>
+                  <button class="btn pequeno perigo remover-logo">Remover</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="cartao">
+            <h2>Patrocinadores</h2>
+            <div id="lista-patrocinadores"></div>
+            <button id="btn-add-pat" class="btn">＋ Adicionar patrocinador</button>
           </div>
         </div>
       </section>

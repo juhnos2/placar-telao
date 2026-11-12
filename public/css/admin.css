@@ -231,7 +231,48 @@ input[type="color"] {
   letter-spacing: 0.06em;
 }
 
-.gol-linha { display: flex; align-items: center; gap: 10px; }
+.gol-linha { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+
+.gol-valor.pequeno { font-size: 28px; min-width: 44px; }
+
+.btn-gol.falta { color: var(--faltas, #facc15); border-color: rgba(250, 204, 21, 0.4); }
+.btn-gol.falta:hover { background: rgba(250, 204, 21, 0.12); }
+
+.check-linha {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  font-size: 14px;
+  color: var(--texto);
+}
+
+.check-linha input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--primario);
+  cursor: pointer;
+}
+
+.patrocinador-item {
+  border: 1px solid var(--borda);
+  border-radius: var(--raio);
+  padding: 14px;
+  margin-bottom: 12px;
+  background: var(--superficie-2);
+}
+
+.patrocinador-item .cabecalho-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--texto-fraco);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
 
 .gol-valor {
   font-family: "Barlow Condensed", sans-serif;

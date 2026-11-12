@@ -108,6 +108,16 @@ app.post("/api/state", (req, res) => {
     clock: { ...def.clock, ...(incoming.clock ?? {}) },
     banner: { ...def.banner, ...(incoming.banner ?? {}) },
     theme: { ...def.theme, ...(incoming.theme ?? {}) },
+    branding: {
+      realizador: { ...def.branding.realizador, ...(incoming.branding?.realizador ?? {}) },
+      sponsors: Array.isArray(incoming.branding?.sponsors)
+        ? incoming.branding.sponsors.map((s: { name?: unknown; logoUrl?: unknown }) => ({
+            name: String(s?.name ?? "").slice(0, 60),
+            logoUrl: String(s?.logoUrl ?? ""),
+          }))
+        : [],
+    },
+    display: { ...def.display, ...(incoming.display ?? {}) },
     updatedAt: Date.now(),
   };
   commit();
@@ -115,13 +125,18 @@ app.post("/api/state", (req, res) => {
 });
 
 app.post("/api/score", (req, res) => {
-  const { team, delta } = req.body ?? {};
+  const { team, delta, tipo } = req.body ?? {};
   if (team !== "home" && team !== "away") {
     return res.status(400).json({ error: "Time inválido (use 'home' ou 'away')." });
   }
   const lado: "home" | "away" = team;
   const d = Number(delta) >= 0 ? 1 : -1;
-  state.score[lado] = Math.max(0, state.score[lado] + d);
+  if (tipo === "falta") {
+    const chave = lado === "home" ? "foulsHome" : "foulsAway";
+    state.score[chave] = Math.max(0, state.score[chave] + d);
+  } else {
+    state.score[lado] = Math.max(0, state.score[lado] + d);
+  }
   commit();
   res.json({ ok: true, state });
 });

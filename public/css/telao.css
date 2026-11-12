@@ -6,6 +6,7 @@
   --accent: #22c55e;
   --text: #f2fff7;
   --muted: #7fb89a;
+  --faltas: #facc15;
   --font-display: "Barlow Condensed", "Arial Narrow", sans-serif;
   --font-ui: "Inter", system-ui, sans-serif;
 }
@@ -30,8 +31,7 @@ body.cursor-hide { cursor: none; }
   display: flex;
   flex-direction: column;
   background:
-    radial-gradient(1200px 600px at 50% -10%, color-mix(in srgb, var(--accent) 14%, transparent), transparent 60%),
-    radial-gradient(900px 500px at 50% 110%, color-mix(in srgb, var(--accent) 8%, transparent), transparent 60%),
+    radial-gradient(1200px 600px at 50% -10%, color-mix(in srgb, var(--accent) 10%, transparent), transparent 60%),
     var(--bg);
   color: var(--text);
   transition: background 0.5s ease;
@@ -43,110 +43,154 @@ body.cursor-hide { cursor: none; }
   align-items: center;
   justify-content: center;
   gap: 18px;
-  padding: 3.2vh 4vw 1.6vh;
+  padding: 2.6vh 4vw 1vh;
 }
 
 .competicao {
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: clamp(22px, 4.2vh, 44px);
+  font-size: clamp(18px, 3.6vh, 38px);
   letter-spacing: 0.14em;
   text-transform: uppercase;
 }
 
 .rodada {
-  font-size: clamp(12px, 2.2vh, 20px);
+  font-size: clamp(11px, 1.9vh, 18px);
   font-weight: 600;
   color: var(--muted);
   text-transform: uppercase;
   letter-spacing: 0.12em;
-  padding: 0.5em 1.2em;
+  padding: 0.4em 1.1em;
   border: 1px solid color-mix(in srgb, var(--muted) 40%, transparent);
   border-radius: 999px;
 }
 
-/* ===== Placar ===== */
+/* ===== Times (nome acima da logo, sem contorno) ===== */
 .placar-area {
   flex: 1;
   display: grid;
-  grid-template-columns: 1fr auto 1fr;
+  grid-template-columns: 1fr 1fr;
   align-items: center;
-  gap: 2vw;
-  padding: 0 5vw;
+  justify-items: center;
+  gap: 3vw;
+  padding: 0 6vw;
+  min-height: 0;
 }
 
 .time {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 2.4vh;
+  gap: 1.6vh;
   min-width: 0;
-}
-
-.time .logo {
-  width: clamp(70px, 17vh, 170px);
-  height: clamp(70px, 17vh, 170px);
-  border-radius: 24px;
-  background: color-mix(in srgb, var(--panel) 80%, black);
-  border: 2px solid color-mix(in srgb, var(--accent) 35%, transparent);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-  box-shadow: 0 12px 40px rgba(0,0,0,0.45);
-}
-
-.time .logo img {
-  width: 78%;
-  height: 78%;
-  object-fit: contain;
-}
-
-.time .logo .inicial {
-  font-family: var(--font-display);
-  font-weight: 800;
-  font-size: clamp(34px, 9vh, 90px);
-  color: var(--time-cor, var(--accent));
 }
 
 .time .nome {
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: clamp(26px, 6.5vh, 68px);
+  font-size: clamp(22px, 5.4vh, 58px);
   text-transform: uppercase;
   letter-spacing: 0.06em;
   line-height: 1.05;
-  max-width: 34vw;
-  overflow-wrap: break-word;
   text-align: center;
+  max-width: 40vw;
+  overflow-wrap: break-word;
 }
 
-.placar-centro {
+.time .logo {
+  width: clamp(90px, 24vh, 250px);
+  height: clamp(90px, 24vh, 250px);
   display: flex;
   align-items: center;
-  gap: clamp(14px, 2.5vw, 48px);
-  padding: 2.4vh clamp(20px, 3.5vw, 70px);
-  background: color-mix(in srgb, var(--panel) 88%, black);
-  border: 2px solid color-mix(in srgb, var(--accent) 30%, transparent);
-  border-radius: 28px;
-  box-shadow: 0 18px 70px rgba(0,0,0,0.5), inset 0 1px 0 color-mix(in srgb, var(--accent) 25%, transparent);
+  justify-content: center;
+  overflow: hidden;
+}
+
+.time .logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 10px 30px rgba(0, 0, 0, 0.5));
+}
+
+.time .logo .inicial {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(44px, 12vh, 130px);
+  color: var(--time-cor, var(--accent));
+}
+
+.faltas-time {
+  display: flex;
+  align-items: center;
+  gap: 0.4em;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(16px, 3.4vh, 34px);
+  color: var(--faltas);
+  font-variant-numeric: tabular-nums;
+}
+
+.faltas-icone { font-size: 0.8em; }
+
+/* ===== Resultado: placar, faltas e cronômetro ===== */
+.resultado-area {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.2vh;
+  padding: 0 4vw 1.6vh;
+}
+
+.placar-gols {
+  display: flex;
+  align-items: center;
+  gap: clamp(16px, 3vw, 60px);
+  line-height: 1;
 }
 
 .gols {
   font-family: var(--font-display);
   font-weight: 800;
-  font-size: clamp(70px, 22vh, 220px);
-  line-height: 1;
-  min-width: 1.4em;
+  font-size: clamp(64px, 20vh, 210px);
+  min-width: 1.2em;
   text-align: center;
-  text-shadow: 0 0 40px color-mix(in srgb, var(--accent) 45%, transparent);
 }
 
 .divisor {
   font-family: var(--font-display);
   font-weight: 600;
-  font-size: clamp(30px, 8vh, 80px);
+  font-size: clamp(28px, 8vh, 80px);
   color: var(--muted);
+}
+
+.faltas-linha {
+  display: flex;
+  align-items: center;
+  gap: 1.4vw;
+}
+
+.faltas-rotulo {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(14px, 2.8vh, 28px);
+  letter-spacing: 0.22em;
+  color: var(--faltas);
+}
+
+.faltas-numeros {
+  display: flex;
+  align-items: center;
+  gap: clamp(8px, 1.2vw, 24px);
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(22px, 5.6vh, 58px);
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+}
+
+.faltas-numeros .divisor {
+  font-size: clamp(18px, 4vh, 42px);
 }
 
 /* ===== Cronômetro ===== */
@@ -154,19 +198,18 @@ body.cursor-hide { cursor: none; }
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 2.5vw;
-  padding: 1.8vh 0 3.4vh;
+  gap: 2vw;
 }
 
 .periodo {
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: clamp(16px, 3.2vh, 32px);
+  font-size: clamp(13px, 2.6vh, 26px);
   text-transform: uppercase;
   letter-spacing: 0.16em;
   color: var(--bg);
   background: var(--accent);
-  padding: 0.35em 1.1em;
+  padding: 0.3em 1em;
   border-radius: 999px;
 }
 
@@ -174,7 +217,7 @@ body.cursor-hide { cursor: none; }
   font-family: var(--font-display);
   font-weight: 800;
   font-variant-numeric: tabular-nums;
-  font-size: clamp(44px, 12vh, 120px);
+  font-size: clamp(32px, 8.5vh, 88px);
   line-height: 1;
   letter-spacing: 0.04em;
 }
@@ -184,12 +227,70 @@ body.cursor-hide { cursor: none; }
 .acrescimos {
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: clamp(20px, 4.5vh, 44px);
+  font-size: clamp(16px, 3.6vh, 36px);
   color: var(--bg);
   background: var(--muted);
-  padding: 0.2em 0.7em;
-  border-radius: 12px;
+  padding: 0.15em 0.6em;
+  border-radius: 10px;
 }
+
+/* ===== Realização e patrocinadores ===== */
+.branding-barra {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 3vw;
+  padding: 0 3vw 2.2vh;
+  min-height: 9vh;
+}
+
+.branding-grupo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6vh;
+  min-width: 0;
+}
+
+.branding-rotulo {
+  font-size: clamp(9px, 1.5vh, 14px);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: var(--muted);
+}
+
+.branding-itens {
+  display: flex;
+  align-items: center;
+  gap: 2.2vw;
+  flex-wrap: wrap;
+}
+
+.branding-item {
+  display: flex;
+  align-items: center;
+  gap: 0.7vw;
+  max-width: 24vw;
+}
+
+.branding-item img {
+  height: clamp(26px, 6vh, 64px);
+  max-width: 12vw;
+  object-fit: contain;
+}
+
+.branding-item span {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(13px, 2.6vh, 26px);
+  color: var(--text);
+  opacity: 0.9;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.realizador { align-items: flex-end; text-align: right; margin-left: auto; }
 
 /* ===== Banner / aviso ===== */
 .banner-overlay {
@@ -278,7 +379,7 @@ body.cursor-hide { cursor: none; }
   text-overflow: ellipsis;
 }
 
-/* ===== Botão tela cheia ===== */
+/* ===== Botões flutuantes ===== */
 .btn-fullscreen {
   position: fixed;
   top: 18px;

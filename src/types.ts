@@ -30,13 +30,29 @@ export interface Theme {
   muted: string;
 }
 
+export interface Sponsor {
+  name: string;
+  logoUrl: string;
+}
+
+export interface Branding {
+  realizador: Sponsor;
+  sponsors: Sponsor[];
+}
+
+export interface DisplayOpts {
+  invertSides: boolean;
+}
+
 export interface State {
   competition: { name: string; round: string };
   teams: { home: Team; away: Team };
-  score: { home: number; away: number };
+  score: { home: number; away: number; foulsHome: number; foulsAway: number };
   clock: Clock;
   banner: Banner;
   theme: Theme;
+  branding: Branding;
+  display: DisplayOpts;
   updatedAt: number;
 }
 

@@ -18,9 +18,12 @@ aparece no telão na hora, sem recarregar a página.
 ## ✨ Funcionalidades
 
 - **Placar em tempo real** — gols dos dois times com botões de gol e correção (−).
+- **Marcador de faltas** — contador de faltas cometidas por time, exibido abaixo do placar.
 - **Cronômetro** — iniciar, pausar, zerar, ajustar minutos e **acréscimos**.
 - **Períodos da partida** — Pré-Jogo, 1º Tempo, Intervalo, 2º Tempo, Prorrogação, Pênaltis e Encerrado.
-- **Times personalizáveis** — nome, abreviação, cor e **logo** (upload de PNG, JPG ou SVG).
+- **Times personalizáveis** — nome, abreviação, cor e **logo** (upload de PNG, JPG ou SVG) — exibidos em destaque, sem contorno, no estilo dos placares de estádio.
+- **Inverter lados do placar** — o time visitante pode ficar à esquerda, acompanhando a posição real dos times em campo.
+- **Realização e patrocinadores** — nome e logo do realizador (canto inferior direito) e até 8 patrocinadores (canto inferior esquerdo) exibidos no rodapé do telão.
 - **Nome da competição e rodada/fase** exibidos no topo do telão.
 - **Aparência personalizável** — 5 temas prontos + cores individuais (fundo, painéis, destaque, texto principal e secundário).
 - **Banner de aviso** em **texto**, **imagem estática** ou **vídeo**, com título, duração automática e ocultar manual.
@@ -216,7 +219,7 @@ placar-telao/
 | `GET` | `/api/state` | Estado atual do placar |
 | `GET` | `/api/stream` | Stream de atualizações em tempo real (SSE) |
 | `POST` | `/api/state` | Atualiza o estado completo |
-| `POST` | `/api/score` | `{ "team": "home" \| "away", "delta": 1 \| -1 }` |
+| `POST` | `/api/score` | `{ "team": "home" \| "away", "delta": 1 \| -1, "tipo": "gol" \| "falta" }` |
 | `POST` | `/api/clock` | `{ "action": "start" \| "pause" \| "reset" \| "set" \| "added" \| "period" }` |
 | `POST` | `/api/banner` | `{ "active": true \| false }` |
 | `POST` | `/api/upload` | `{ "name": "logo.png", "data": "<base64>" }` |

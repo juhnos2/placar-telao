@@ -92,6 +92,8 @@ function preencherFormularios() {
   $("#rotulo-fora").textContent = estado.teams.away.name || "Time Visitante";
   $("#gols-casa").textContent = estado.score.home;
   $("#gols-fora").textContent = estado.score.away;
+  $("#faltas-casa").textContent = estado.score.foulsHome ?? 0;
+  $("#faltas-fora").textContent = estado.score.foulsAway ?? 0;
   $("#clock-acrescimos").value = estado.clock.addedMin;
 
   const selectPeriodo = $("#clock-periodo");
@@ -111,9 +113,13 @@ function preencherFormularios() {
   $$(".upload-area").forEach((area) => {
     const url = obterCaminho(estado, area.dataset.upload);
     const img = area.querySelector(".upload-preview");
+    if (!img) return;
     if (url) { img.src = url; img.style.display = "block"; }
     else { img.removeAttribute("src"); img.style.display = "none"; }
   });
+
+  renderizarPatrocinadores();
+  vincularUploads();
 
   const ehVideo = estado.banner.kind === "video";
   $$('.upload-area[data-upload="banner.mediaUrl"] .upload-preview').forEach((img) => {
@@ -138,6 +144,7 @@ $$("[data-campo]").forEach((el) => {
   el.addEventListener("change", () => {
     let valor = el.value;
     if (el.type === "number") valor = Number(valor);
+    if (el.type === "checkbox") valor = el.checked;
     definirCaminho(estado, el.dataset.campo, valor);
     if (el.dataset.campo === "banner.kind") alternarCamposBanner();
     preencherFormularios();
@@ -161,7 +168,11 @@ $$(".menu-item").forEach((btn) => {
 $$(".btn-gol").forEach((btn) => {
   btn.addEventListener("click", async () => {
     try {
-      const res = await api("/api/score", { team: btn.dataset.time, delta: Number(btn.dataset.delta) });
+      const res = await api("/api/score", {
+        team: btn.dataset.time,
+        delta: Number(btn.dataset.delta),
+        tipo: btn.dataset.tipo || "gol",
+      });
       estado = res.state;
       preencherFormularios();
       renderizarPrevia();
@@ -229,47 +240,122 @@ Object.entries(TEMAS).forEach(([nome, cores]) => {
 
 /* ===== Uploads ===== */
 
-$$(".upload-area").forEach((area) => {
-  const campo = area.dataset.upload;
-  const input = document.createElement("input");
-  input.type = "file";
-  input.accept = campo === "banner.mediaUrl" ? "image/*,video/mp4,video/webm" : "image/*";
-  input.hidden = true;
-  area.appendChild(input);
+function vincularUploads() {
+  $$(".upload-area").forEach((area) => {
+    if (area.dataset.vinculado) return;
+    area.dataset.vinculado = "1";
+    const campo = area.dataset.upload;
+    const input = document.createElement("input");
+    input.type = "file";
+    input.accept = campo.startsWith("banner") ? "image/*,video/mp4,video/webm" : "image/*";
+    input.hidden = true;
+    area.appendChild(input);
 
-  area.querySelector(".escolher").addEventListener("click", () => input.click());
+    area.querySelector(".escolher").addEventListener("click", () => input.click());
 
-  input.addEventListener("change", async () => {
-    const arquivo = input.files[0];
-    if (!arquivo) return;
-    if (arquivo.size > 150 * 1024 * 1024) {
-      toast("Arquivo muito grande (máx. 150 MB)", true);
-      return;
-    }
-    toast("Enviando arquivo…");
-    const base64 = await new Promise((resolve) => {
-      const leitor = new FileReader();
-      leitor.onload = () => resolve(leitor.result);
-      leitor.readAsDataURL(arquivo);
+    input.addEventListener("change", async () => {
+      const arquivo = input.files[0];
+      if (!arquivo) return;
+      if (arquivo.size > 150 * 1024 * 1024) {
+        toast("Arquivo muito grande (máx. 150 MB)", true);
+        return;
+      }
+      toast("Enviando arquivo…");
+      const base64 = await new Promise((resolve) => {
+        const leitor = new FileReader();
+        leitor.onload = () => resolve(leitor.result);
+        leitor.readAsDataURL(arquivo);
+      });
+      try {
+        const res = await api("/api/upload", { name: arquivo.name, data: base64 });
+        definirCaminho(estado, campo, res.url);
+        preencherFormularios();
+        renderizarPrevia();
+        salvarEstado();
+        toast("Arquivo enviado com sucesso");
+      } catch (e) {
+        toast(e.message, true);
+      }
     });
-    try {
-      const res = await api("/api/upload", { name: arquivo.name, data: base64 });
-      definirCaminho(estado, campo, res.url);
+
+    area.querySelector(".remover-logo").addEventListener("click", () => {
+      definirCaminho(estado, campo, "");
       preencherFormularios();
       renderizarPrevia();
       salvarEstado();
-      toast("Arquivo enviado com sucesso");
-    } catch (e) {
-      toast(e.message, true);
-    }
+    });
   });
+}
 
-  area.querySelector(".remover-logo").addEventListener("click", () => {
-    definirCaminho(estado, campo, "");
-    preencherFormularios();
-    renderizarPrevia();
-    salvarEstado();
+/* ===== Realização e Patrocinadores ===== */
+
+let ultimaChavePatrocinadores = "";
+
+function renderizarPatrocinadores() {
+  if (!estado.branding) return;
+  const lista = estado.branding.sponsors || [];
+  const chave = JSON.stringify(lista);
+  const focoNaLista = document.activeElement && $("#lista-patrocinadores").contains(document.activeElement);
+  if (chave === ultimaChavePatrocinadores || focoNaLista) return;
+  ultimaChavePatrocinadores = chave;
+
+  const cont = $("#lista-patrocinadores");
+  cont.innerHTML = "";
+
+  lista.forEach((p, i) => {
+    const div = document.createElement("div");
+    div.className = "patrocinador-item";
+    div.innerHTML = `
+      <div class="cabecalho-item">
+        <span>Patrocinador ${i + 1}</span>
+        <button class="btn pequeno perigo excluir-pat">✕ Excluir</button>
+      </div>
+      <div class="linha-form">
+        <label>Nome</label>
+        <input type="text" maxlength="60" placeholder="Ex.: Supermercado Central" value="${esc(p.name)}" />
+      </div>
+      <div class="linha-form">
+        <label>Logo</label>
+        <div class="upload-area" data-upload="branding.sponsors.${i}.logoUrl">
+          <img class="upload-preview" alt="Logo" />
+          <div class="upload-acoes">
+            <button class="btn pequeno escolher">Escolher imagem</button>
+            <button class="btn pequeno perigo remover-logo">Remover</button>
+          </div>
+        </div>
+      </div>
+    `;
+
+    div.querySelector("input[type='text']").addEventListener("change", (ev) => {
+      estado.branding.sponsors[i].name = ev.target.value;
+      renderizarPrevia();
+      salvarEstado();
+    });
+
+    div.querySelector(".excluir-pat").addEventListener("click", () => {
+      estado.branding.sponsors.splice(i, 1);
+      ultimaChavePatrocinadores = "";
+      preencherFormularios();
+      renderizarPrevia();
+      salvarEstado();
+      toast("Patrocinador removido");
+    });
+
+    cont.appendChild(div);
   });
+}
+
+$("#btn-add-pat").addEventListener("click", () => {
+  if (!estado.branding) estado.branding = { realizador: { name: "", logoUrl: "" }, sponsors: [] };
+  if (estado.branding.sponsors.length >= 8) {
+    toast("Máximo de 8 patrocinadores", true);
+    return;
+  }
+  estado.branding.sponsors.push({ name: "", logoUrl: "" });
+  ultimaChavePatrocinadores = "";
+  preencherFormularios();
+  renderizarPrevia();
+  salvarEstado();
 });
 
 /* ===== Banner ===== */

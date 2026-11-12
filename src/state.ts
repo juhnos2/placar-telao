@@ -22,7 +22,7 @@ export function defaultState(): State {
       home: { name: "Time da Casa", short: "CASA", logoUrl: "", color: "#22c55e" },
       away: { name: "Time Visitante", short: "VIS", logoUrl: "", color: "#38bdf8" },
     },
-    score: { home: 0, away: 0 },
+    score: { home: 0, away: 0, foulsHome: 0, foulsAway: 0 },
     clock: {
       running: false,
       startedAt: null,
@@ -45,6 +45,11 @@ export function defaultState(): State {
       text: "#f2fff7",
       muted: "#7fb89a",
     },
+    branding: {
+      realizador: { name: "", logoUrl: "" },
+      sponsors: [],
+    },
+    display: { invertSides: false },
     updatedAt: Date.now(),
   };
 }
@@ -74,8 +79,11 @@ export function loadState(): State {
       clock: mergeSection(def.clock, saved.clock),
       banner: { ...mergeSection(def.banner, saved.banner), active: false },
       theme: mergeSection(def.theme, saved.theme),
+      branding: mergeSection(def.branding, saved.branding),
+      display: mergeSection(def.display, saved.display),
       updatedAt: Date.now(),
     };
+    if (!Array.isArray(state.branding.sponsors)) state.branding.sponsors = [];
     return state;
   } catch {
     return def;
