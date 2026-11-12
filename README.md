@@ -251,3 +251,13 @@ placar-telao/
 ## 📄 Licença
 
 MIT
+
+## 🤝 Como Contribuir
+
+Contribuições são muito bem-vindas! Antes de enviar um Pull Request, por favor **abra uma Issue** para discutirmos o que você gostaria de mudar ou adicionar.
+
+1. Abra uma [Issue](../../issues) descrevendo sua ideia ou o bug encontrado.
+2. Aguarde a validação da equipe/mantenedor.
+3. Faça um **Fork** do projeto e crie uma nova branch (`git checkout -b feature/sua-feature`).
+4. Envie seu **Pull Request** mencionando o número da Issue (ex: `Closes #12`).
+
