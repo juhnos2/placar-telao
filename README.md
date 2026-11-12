@@ -30,6 +30,23 @@ aparece no telão na hora, sem recarregar a página.
 
 ---
 
+## ⚡ Inicialização rápida (Windows)
+
+A maneira mais fácil de rodar no Windows é dar **duplo clique em `iniciar.bat`**.
+Ele faz tudo sozinho:
+
+1. Verifica se o **Node.js** está instalado (se não, mostra o link para instalar);
+2. Instala as dependências (`npm install`) na primeira execução;
+3. Compila o projeto (`npm run build`) na primeira execução;
+4. Inicia o servidor e **abre o painel automaticamente no navegador**.
+
+> 💡 Na primeira vez pode demorar alguns minutos (instalação). Nas seguintes,
+> abre em poucos segundos. Deixe a janela preta aberta enquanto usar o placar.
+
+Em **Linux/Mac**, use `./iniciar.sh` (mesmo funcionamento).
+
+---
+
 ## 🚀 Como rodar localmente (Node.js)
 
 Requisitos: [Node.js 20+](https://nodejs.org/) (recomendado 22).
@@ -171,6 +188,8 @@ docker compose up -d --build
 
 ```
 placar-telao/
+├── iniciar.bat           # Inicializador Windows (duplo clique)
+├── iniciar.sh            # Inicializador Linux/Mac
 ├── src/                  # Servidor (TypeScript)
 │   ├── server.ts         # API, SSE, uploads e rotas
 │   ├── state.ts          # Estado do placar + persistência em JSON
@@ -199,6 +218,18 @@ placar-telao/
 | `POST` | `/api/banner` | `{ "active": true \| false }` |
 | `POST` | `/api/upload` | `{ "name": "logo.png", "data": "<base64>" }` |
 | `POST` | `/api/chat` | `{ "messages": [{ "role": "user", "content": "..." }] }` |
+
+---
+
+## 🆘 Solução de problemas
+
+| Problema | Causa provável | Solução |
+|----------|----------------|---------|
+| `'npm' não é reconhecido` | Node.js não instalado ou terminal aberto antes da instalação | Instale o Node em [nodejs.org](https://nodejs.org/) e **abra um terminal novo** |
+| `Cannot find module dist/server.js` | Projeto não foi compilado | Rode `npm run build` antes de `npm start` (o `iniciar.bat` faz isso sozinho) |
+| `EADDRINUSE :3000` | A porta 3000 já está em uso | Feche outro programa na porta 3000 ou mude `PORT=3001` no `.env` |
+| Assistente IA responde erro de chave | `MISTRAL_API_KEY` não configurada | Crie o `.env` a partir do `.env.example` e cole sua chave da [console.mistral.ai](https://console.mistral.ai/) |
+| Telão não atualiza em tempo real | Proxy/firewall bloqueando SSE | Em Nginx, use `proxy_buffering off;` (ver seção VPS) |
 
 ---
 
